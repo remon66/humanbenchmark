@@ -18,16 +18,6 @@ driver.implicitly_wait(1)
 click_field_blue = driver.find_element(By.CLASS_NAME, "view-splash")
 click_field_blue.click()
 
-# script = "function test() {" \
-#          "  let el = document.querySelector('.view-go');" \
-#         "   if (el) {" \
-#         "      el.click();" \
-#         "   }" \
-#         "   " \
-#         "}" \
-#         "setInterval(test, 1000);"
-#
-# driver.execute_script(script=script)
 try:
     element = WebDriverWait(driver, 10, poll_frequency=0.00000001).until(
         EC.presence_of_element_located((By.CLASS_NAME, "view-go"))
