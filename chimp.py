@@ -24,9 +24,16 @@ try:
         EC.presence_of_all_elements_located((By.CLASS_NAME, "css-19b5rdt"))
     )
 finally:
+    countText = "1"
+    count = 0;
     texts = driver.find_elements(By.CLASS_NAME, "css-19b5rdt")
     for text in texts:
-        print(text)
+        count += 1;
+        print(count)
+        if text.text == countText:
+            text.click()
+            countText = str(count)
+
 
 
 
