@@ -27,7 +27,7 @@ def enterNumber(number):
             EC.presence_of_element_located((By.CSS_SELECTOR, "[type=text]"))
         )
     finally:
-        inputField = driver.find_element(By.CSS_SELECTOR, "[type=text")
+        inputField = driver.find_element(By.CSS_SELECTOR, "[type=text]")
         driver.implicitly_wait(1)
         inputField.send_keys(number)
         driver.implicitly_wait(1)
