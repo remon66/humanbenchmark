@@ -6,7 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 
-s = Service('./chromedriver.exe')
+s = Service('./chromedriver') # CHANGE TO .exe ON WINDOWS
 driver = webdriver.Chrome(service=s)
 driver.get("https://humanbenchmark.com/tests/chimp")
 
@@ -19,28 +19,48 @@ click_button = driver.find_element(By.CLASS_NAME, "css-de05nr")
 click_button.click()
 
 
-def do_chimp(texts):
+def do_chimp():
     count = 1
     while True:
+        texts = driver.find_elements(By.CSS_SELECTOR, "[data-cellnumber='" + str(count) + "']")
+        print(texts)
+        if not texts:
+            continueHere()
+            break
         for button in texts:
             try:
                 print(button.text)
             except:
-                return
+                print("null")
 
             if button.text != "":
-                if int(button.text) == count:
+                if button.text != '.' and button.text == str(count):
+                    button.click()
+                    count += 1
+                elif button.text == '.' and button.get_attribute('data-cellnumber') == str(count):
                     button.click()
                     count += 1
 
 
-try:
-    element = WebDriverWait(driver, 10).until(
-        EC.presence_of_all_elements_located((By.CLASS_NAME, "css-19b5rdt"))
-    )
-finally:
-    count = 1
-    texts = driver.find_elements(By.CLASS_NAME, "css-19b5rdt")
+def continueHere():
+    try:
+        element = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "css-de05nr"))
+        )
+    finally:
+        continueButton = driver.find_element(By.CLASS_NAME, "css-de05nr")
+        continueButton.click()
+        print("done")
+        do_chimp()
 
-    do_chimp(texts)
-    # WHILE... wait for continue button to appear, than do_chimps again
+
+while True:
+    try:
+        element = WebDriverWait(driver, 10).until(
+            EC.presence_of_all_elements_located((By.CSS_SELECTOR, "[data-cellnumber='1']"))
+        )
+    finally:
+        count = 1
+        texts = driver.find_elements(By.CSS_SELECTOR, "[data-cellnumber='" + str(count) + "']")
+        print("top")
+        do_chimp()
