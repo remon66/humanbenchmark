@@ -59,11 +59,4 @@ def getNumber():
         enterNumber(number.text)
 
 
-while True:
-    try:
-        element = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "big-number"))
-        )
-    finally:
-        number = driver.find_element(By.CLASS_NAME, "big-number")
-        enterNumber(number.text)
+getNumber()
